@@ -259,9 +259,8 @@ Use a relative path, exactly as shown here: <b>../pictures/</b>'), 'HuMo-genealo
                         $htaccessFilePath = $testDir . DIRECTORY_SEPARATOR . '.htaccess';
                         $testFileJpg = 'HuMo_genealogy_test_file.jpg';
                         $testFileJpgPath = $testDir . DIRECTORY_SEPARATOR . $testFileJpg;
-                        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
-                        $host = $_SERVER['HTTP_HOST'];
-                        $serverAddress = $protocol . $host;
+                        $requestUrl = new \Genealogy\Include\RequestUrl();
+                        $serverAddress = $requestUrl->getOrigin();
                         $testUrlJpg = $serverAddress . DIRECTORY_SEPARATOR . $path . $testFileJpg;
                         $testUrlDirIndex = $serverAddress . DIRECTORY_SEPARATOR . $path;
                         $htaccess_ok = false;

@@ -108,12 +108,15 @@ Please disconnect the pages from this menu first.'); ?>
 
                     // Search for: /admin/ in $_SERVER['PHP_SELF']
                     $position = strpos($_SERVER['PHP_SELF'], '/admin/');
-                    $path_tmp = 'http://' . $_SERVER['SERVER_NAME'] . substr($_SERVER['REQUEST_URI'], 0, $position);
+                    $requestUrl = new \Genealogy\Include\RequestUrl();
+                    $path_tmp = $requestUrl->getUrl(substr($_SERVER['REQUEST_URI'], 0, $position));
+                    $standardCmsUrl = $path_tmp . '/index.php?page=cms_pages&select_page=' . $edit_cms_pages['page_id'] . '&menu=1';
+                    $rewriteCmsUrl = $path_tmp . '/cms_pages/' . $edit_cms_pages['page_id'] . '?menu=1';
                 ?>
                     <?= __('This page can be accessed using this link: '); ?><br>
-                    <b><?= $path_tmp; ?>/index.php?page=cms_pages&amp;select_page=<?= $edit_cms_pages['page_id']; ?>&amp;menu=1</b><br>
+                    <b><?= htmlspecialchars($standardCmsUrl, ENT_QUOTES, 'UTF-8'); ?></b><br>
                     <?php if ($humo_option["url_rewrite"] == "j") { ?>
-                        <?= __('or'); ?>: <b><?= $path_tmp; ?>/cms_pages/<?= $edit_cms_pages['page_id']; ?>?menu=1</b><br>
+                        <?= __('or'); ?>: <b><?= htmlspecialchars($rewriteCmsUrl, ENT_QUOTES, 'UTF-8'); ?></b><br>
                 <?php
                     }
                 }

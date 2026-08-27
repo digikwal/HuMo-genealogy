@@ -57,10 +57,7 @@ $max_loc = 49999;
 //$max_loc = 600; // Test line
 $loc = array();
 $filenumber = 0;
-$request_host = $_SERVER['HTTP_HOST'] ?? $_SERVER['SERVER_NAME'];
-if (!preg_match('/^(?:[A-Za-z0-9.-]+|\[[0-9A-Fa-f:.]+\])(?::[0-9]{1,5})?$/', $request_host)) {
-    $request_host = $_SERVER['SERVER_NAME'];
-}
+$requestUrl = new \Genealogy\Include\RequestUrl();
 // *** Family trees ***
 $familytrees = $db_functions->get_trees();
 foreach ($familytrees as $familytree) {
@@ -86,11 +83,7 @@ foreach ($familytrees as $familytree) {
             $position = strrpos($_SERVER['PHP_SELF'], '/');
 
             // *** April 2022: Using full path: http://localhost/humo-genealogy/sitemap.php ***
-            if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
-                $uri_path = 'https://' . $request_host . substr($_SERVER['PHP_SELF'], 0, $position);
-            } else {
-                $uri_path = 'http://' . $request_host . substr($_SERVER['PHP_SELF'], 0, $position);
-            }
+            $uri_path = $requestUrl->getUrl(substr($_SERVER['PHP_SELF'], 0, $position));
 
             if ($humo_option["url_rewrite"] == "j") {
                 //$person_url = $uri_path . '/family/' . $familytree->tree_id . '/' . $personDb->fam_gedcomnumber . '/';
@@ -136,11 +129,7 @@ foreach ($familytrees as $familytree) {
 
                 //$uri_path= substr($_SERVER['PHP_SELF'],0,$position);
                 // *** April 2022: Using full path: http://localhost/humo-genealogy/sitemap.php ***
-                if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
-                    $uri_path = 'https://' . $request_host . substr($_SERVER['PHP_SELF'], 0, $position);
-                } else {
-                    $uri_path = 'http://' . $request_host . substr($_SERVER['PHP_SELF'], 0, $position);
-                }
+                $uri_path = $requestUrl->getUrl(substr($_SERVER['PHP_SELF'], 0, $position));
 
                 // A single person doesn't have a famc or fams.
                 $pers_family = '';

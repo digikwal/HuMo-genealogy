@@ -83,7 +83,8 @@ class MailformModel extends BaseModel
             $mail_message .= __('Name') . ':' . $_POST['mail_name'] . "<br>\n";
             $mail_message .= __('E-mail') . ": <a href='mailto:" . $_POST['mail_sender'] . "'>" . $_POST['mail_sender'] . "</a><br>\n";
             if (isset($_SESSION['save_last_visitid'])) {
-                $mail_message .= __('Last visited family:') . " <a href='http://" . $_SESSION['save_last_visitid'] . "'>" . $_SESSION['save_last_visitid'] . "</a><br>\n";
+                $lastVisited = htmlspecialchars($_SESSION['save_last_visitid'], ENT_QUOTES, 'UTF-8');
+                $mail_message .= __('Last visited family:') . " <a href='" . $lastVisited . "'>" . $lastVisited . "</a><br>\n";
             }
             if (isset($_POST['newsletter'])) {
                 $mail_message .= __('Receive newsletter') . ': ' . $_POST['newsletter'] . "<br>\n";

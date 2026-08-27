@@ -200,12 +200,8 @@ if ($page == 'family') {
         // *** First part of url (strip sitemap.php from path) ***
         $position = strrpos($_SERVER['PHP_SELF'], '/');
         // *** April 2022: Using full path: http://localhost/humo-genealogy/sitemap.php ***
-        if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
-            $canonical_path = 'https://' . $_SERVER['SERVER_NAME'] . substr($_SERVER['PHP_SELF'], 0, $position);
-        } else {
-            $canonical_path = 'http://' . $_SERVER['SERVER_NAME'] . substr($_SERVER['PHP_SELF'], 0, $position);
-        }
-        $canonical_path = $canonical_path . '/index.php?page=family&amp;tree_id=' . $tree_id . '&amp;id=' . $data["family_id"];
+        $canonical_path = $requestUrl->getUrl(substr($_SERVER['PHP_SELF'], 0, $position));
+        $canonical_path = $canonical_path . '/index.php?page=family&tree_id=' . $tree_id . '&id=' . $data["family_id"];
     }
 }
 ?>
@@ -303,7 +299,7 @@ if ($page == 'family') {
     <link rel="stylesheet" media="(max-width: 640px)" href="css/gedcom_mobile.css">
 
     <?php if ($page == 'family') { ?>
-        <link rel="canonical" href="<?= $canonical_path; ?>">
+        <link rel="canonical" href="<?= htmlspecialchars($canonical_path, ENT_QUOTES, 'UTF-8'); ?>">
     <?php } ?>
 
     <!-- Extra items in header added by admin -->
