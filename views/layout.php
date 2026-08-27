@@ -228,7 +228,7 @@ if ($page == 'family') {
     <?php } ?>
 
     <?php if ($base_href) { ?>
-        <base href="<?= $base_href; ?>">
+        <base href="<?= htmlspecialchars($base_href, ENT_QUOTES, 'UTF-8'); ?>">
     <?php } ?>
 
     <!-- Bootstrap added in dec. 2023 -->
