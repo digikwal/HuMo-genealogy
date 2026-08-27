@@ -57,6 +57,7 @@ $max_loc = 49999;
 //$max_loc = 600; // Test line
 $loc = array();
 $filenumber = 0;
+$requestUrl = new \Genealogy\Include\RequestUrl();
 // *** Family trees ***
 $familytrees = $db_functions->get_trees();
 foreach ($familytrees as $familytree) {
@@ -82,11 +83,7 @@ foreach ($familytrees as $familytree) {
             $position = strrpos($_SERVER['PHP_SELF'], '/');
 
             // *** April 2022: Using full path: http://localhost/humo-genealogy/sitemap.php ***
-            if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
-                $uri_path = 'https://' . $_SERVER['SERVER_NAME'] . substr($_SERVER['PHP_SELF'], 0, $position);
-            } else {
-                $uri_path = 'http://' . $_SERVER['SERVER_NAME'] . substr($_SERVER['PHP_SELF'], 0, $position);
-            }
+            $uri_path = $requestUrl->getUrl(substr($_SERVER['PHP_SELF'], 0, $position));
 
             if ($humo_option["url_rewrite"] == "j") {
                 //$person_url = $uri_path . '/family/' . $familytree->tree_id . '/' . $personDb->fam_gedcomnumber . '/';
@@ -132,11 +129,7 @@ foreach ($familytrees as $familytree) {
 
                 //$uri_path= substr($_SERVER['PHP_SELF'],0,$position);
                 // *** April 2022: Using full path: http://localhost/humo-genealogy/sitemap.php ***
-                if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
-                    $uri_path = 'https://' . $_SERVER['SERVER_NAME'] . substr($_SERVER['PHP_SELF'], 0, $position);
-                } else {
-                    $uri_path = 'http://' . $_SERVER['SERVER_NAME'] . substr($_SERVER['PHP_SELF'], 0, $position);
-                }
+                $uri_path = $requestUrl->getUrl(substr($_SERVER['PHP_SELF'], 0, $position));
 
                 // A single person doesn't have a famc or fams.
                 $pers_family = '';

@@ -10,7 +10,7 @@
 $screen_mode = '';
 
 // *** "Last visited" id is used for contact form ***
-$last_visited = $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+$last_visited = $requestUrl->getCurrentUrl();
 $_SESSION['save_last_visitid'] = $last_visited;
 
 $botDetector = new Genealogy\Include\BotDetector();
@@ -1023,7 +1023,7 @@ if ($user['group_citation_generation'] == 'y') {
     $link = $processLinks->get_link($uri_path, 'family', $tree_id, true, $vars);
     $link .= "main_person=" . $data["main_person"];
     if ($humo_option["url_rewrite"] != "j") {
-        $link = 'http://' . $_SERVER['SERVER_NAME'] . $link;
+        $link = $requestUrl->getUrl($link);
     }
     ?>
     <br><b><?= __('Citation for:') . ' ' . __('Family Page'); ?></b><br>

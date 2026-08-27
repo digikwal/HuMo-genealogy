@@ -158,13 +158,10 @@ if (isset($_POST["hoofdpersoon"])) {
 // REQUEST_URI: /url_test/index/1abcd2345/
 // REQUEST_URI: /url_test/index.php?variabele=1
 $base_href = '';
+$requestUrl = new Genealogy\Include\RequestUrl();
 if ($humo_option["url_rewrite"] == "j" && $index['tmp_path']) {
     // *** url_rewrite. 26 jan. 2024 Ron: Added proxy check ***
-    if ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) {
-        $uri_path = 'https://' . $_SERVER['SERVER_NAME'] . $index['tmp_path'];
-    } else {
-        $uri_path = 'http://' . $_SERVER['SERVER_NAME'] . $index['tmp_path'];
-    }
+    $uri_path = $requestUrl->getUrl($index['tmp_path']);
     $base_href = $uri_path;
 } else {
     // *** Use standard uri ***
