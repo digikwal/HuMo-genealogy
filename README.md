@@ -54,3 +54,10 @@ the database and all other persisted Docker volumes.
 Set `HUMOGEN_PORT` in `.env` to use another host port. For a public deployment,
 place this service behind an HTTPS reverse proxy and expose that proxy instead
 of publishing HuMo-genealogy directly to the internet.
+
+For public deployments, `HUMOGEN_PUBLIC_ORIGIN` can be set to the trusted
+external origin used in canonical and password-reset URLs, for example
+`https://genealogy.example.com`. If the application is exclusively reachable
+through a trusted reverse proxy, set `HUMOGEN_TRUST_PROXY_HEADERS=true` to use
+its `X-Forwarded-Host` and `X-Forwarded-Proto` headers. Do not enable this when
+clients can connect directly to the application.
