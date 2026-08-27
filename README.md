@@ -25,3 +25,32 @@ Download the current version: [github.com/HuubMons/HuMo-genealogy/releases](http
 - [Documentation](https://huubmons.github.io/HuMo-genealogy/documentation.html)
 
 - [Old PDF documentation](https://sourceforge.net/projects/humo-gen/files/HuMo-gen_Manual/)
+
+## Docker deployment
+
+The included Compose setup runs HuMo-genealogy with Apache/PHP and MariaDB
+12.3.3.
+Database data, media, GEDCOM uploads, and backups are stored in Docker volumes.
+
+1. Create the environment file and replace both example passwords:
+
+   ```sh
+   cp .env.example .env
+   ```
+
+2. Build and start the services:
+
+   ```sh
+   docker compose up -d --build
+   ```
+
+3. Open `http://localhost:8080/admin` and complete the HuMo-genealogy
+   installation. The database connection is supplied automatically by Docker.
+
+To inspect the services, run `docker compose ps`. To stop them, run
+`docker compose down`. Do not add `-v` unless you deliberately want to delete
+the database and all other persisted Docker volumes.
+
+Set `HUMOGEN_PORT` in `.env` to use another host port. For a public deployment,
+place this service behind an HTTPS reverse proxy and expose that proxy instead
+of publishing HuMo-genealogy directly to the internet.

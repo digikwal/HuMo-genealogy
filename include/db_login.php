@@ -50,10 +50,8 @@ $temp_db_value = getenv("MYSQL_DATABASE", true);
 if ($USE_ENV_FOR_DB && $temp_db_value != false && $temp_db_value != '') {
     $DATABASE_NAME = $temp_db_value;
 
-    //$temp_db_value = getenv("MYSQL_HOST", true);
-    //if ($USE_ENV_FOR_DB && $temp_db_value != false && $temp_db_value != '') {
-    //	$DATABASE_HOST=$temp_db_value;
-    $DATABASE_HOST = 'mariadb';
+    $temp_db_value = getenv("MYSQL_HOST", true);
+    $DATABASE_HOST = ($temp_db_value !== false && $temp_db_value !== '') ? $temp_db_value : 'mariadb';
 
     $temp_db_value = getenv("MYSQL_USER", true);
     if ($USE_ENV_FOR_DB && $temp_db_value != false && $temp_db_value != '') {

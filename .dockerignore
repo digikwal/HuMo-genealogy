@@ -1,0 +1,45 @@
+.git
+.github
+.gitignore
+.gitattributes.txt
+.dockerignore
+
+# Local configuration and developer files
+.env
+.env.*
+.idea
+.vscode
+*.log
+.phpunit.result.cache
+.php-cs-fixer.cache
+tests
+docs
+README.md
+CONTRIBUTORS.md
+
+# Docker orchestration files are not needed inside the runtime image
+Dockerfile
+compose.yaml
+compose.yml
+docker-compose.yaml
+docker-compose.yml
+
+# Runtime data is persisted in named volumes
+admin/backup_files/*
+!admin/backup_files/readme.txt
+admin/gedcom_files/*
+!admin/gedcom_files/readme.txt
+!admin/gedcom_files/HuMo-genealogy test gedcomfile.ged
+tmp_files/*
+!tmp_files/readme.txt
+media/*
+!media/readme.txt
+!media/cms
+media/cms/*
+!media/cms/readme.txt
+!media/slideshow
+media/slideshow/*
+!media/slideshow/readme.txt
+!media/thumbs
+media/thumbs/*
+!media/thumbs/readme.txt

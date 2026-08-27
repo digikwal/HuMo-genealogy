@@ -1,0 +1,45 @@
+name: humogen
+
+services:
+  humogen:
+    build:
+      context: .
+    image: humogen:local
+    restart: unless-stopped
+    ports:
+      - "${HUMOGEN_PORT:-8080}:80"
+    environment:
+      MYSQL_HOST: mariadb
+      MYSQL_DATABASE: "${DB_NAME:-humogen}"
+      MYSQL_USER: "${DB_USER:-humogen}"
+      MYSQL_PASSWORD: "${DB_PASSWORD:?Copy .env.example to .env and set DB_PASSWORD}"
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    volumes:
+      - humogen_media:/var/www/html/media
+      - humogen_gedcom:/var/www/html/admin/gedcom_files
+      - humogen_backups:/var/www/html/admin/backup_files
+
+  mariadb:
+    image: mariadb:12.3.3
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: "${DB_NAME:-humogen}"
+      MARIADB_USER: "${DB_USER:-humogen}"
+      MARIADB_PASSWORD: "${DB_PASSWORD:?Copy .env.example to .env and set DB_PASSWORD}"
+      MARIADB_ROOT_PASSWORD: "${DB_ROOT_PASSWORD:?Copy .env.example to .env and set DB_ROOT_PASSWORD}"
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    volumes:
+      - humogen_database:/var/lib/mysql
+
+volumes:
+  humogen_database:
+  humogen_media:
+  humogen_gedcom:
+  humogen_backups:
