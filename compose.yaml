@@ -13,6 +13,8 @@ services:
       MYSQL_DATABASE: "${DB_NAME:-humogen}"
       MYSQL_USER: "${DB_USER:-humogen}"
       MYSQL_PASSWORD: "${DB_PASSWORD:?Copy .env.example to .env and set DB_PASSWORD}"
+      HUMOGEN_PUBLIC_ORIGIN: "${HUMOGEN_PUBLIC_ORIGIN:-}"
+      HUMOGEN_TRUST_PROXY_HEADERS: "${HUMOGEN_TRUST_PROXY_HEADERS:-false}"
     depends_on:
       mariadb:
         condition: service_healthy
