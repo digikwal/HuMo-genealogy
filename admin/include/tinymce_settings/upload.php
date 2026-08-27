@@ -74,8 +74,8 @@ if (is_uploaded_file($temp['tmp_name'])) {
 
 
     // Determine the base URL 
-    $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? "https://" : "http://";
-    $baseurl = $protocol . $_SERVER["HTTP_HOST"] . rtrim(dirname($_SERVER['REQUEST_URI']), "/") . "/";
+    $requestUrl = new \Genealogy\Include\RequestUrl();
+    $baseurl = $requestUrl->getUrl(rtrim(dirname($_SERVER['REQUEST_URI']), "/") . "/");
 
     // Change:
     // http://localhost/humo-genealogy/admin/include/tinymce/../../../media/cms/Mastodon.png

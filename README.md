@@ -26,31 +26,25 @@ Download the current version: [github.com/HuubMons/HuMo-genealogy/releases](http
 
 - [Old PDF documentation](https://sourceforge.net/projects/humo-gen/files/HuMo-gen_Manual/)
 
-## Docker deployment
+## Public URL configuration
 
-The included Compose setup runs HuMo-genealogy with Apache/PHP and MariaDB
-12.3.3.
-Database data, media, GEDCOM uploads, and backups are stored in Docker volumes.
+HuMo-genealogy normally derives its public origin from the current request. To
+use a fixed, trusted origin for generated links, including password-reset URLs,
+set an environment variable such as:
 
-1. Create the environment file and replace both example passwords:
+```text
+HUMOGEN_PUBLIC_ORIGIN=https://genealogy.example.com:8443
+```
 
-   ```sh
-   cp .env.example .env
-   ```
+The value may contain an HTTP or HTTPS scheme, a hostname or IPv6 address, and
+an optional port. It must not contain a path, query, fragment, or credentials.
 
-2. Build and start the services:
+When HuMo-genealogy is only reachable through a trusted reverse proxy, forwarded
+host and protocol headers can be enabled with:
 
-   ```sh
-   docker compose up -d --build
-   ```
+```text
+HUMOGEN_TRUST_PROXY_HEADERS=true
+```
 
-3. Open `http://localhost:8080/admin` and complete the HuMo-genealogy
-   installation. The database connection is supplied automatically by Docker.
-
-To inspect the services, run `docker compose ps`. To stop them, run
-`docker compose down`. Do not add `-v` unless you deliberately want to delete
-the database and all other persisted Docker volumes.
-
-Set `HUMOGEN_PORT` in `.env` to use another host port. For a public deployment,
-place this service behind an HTTPS reverse proxy and expose that proxy instead
-of publishing HuMo-genealogy directly to the internet.
+Do not enable this setting when clients can connect directly to the application
+and supply their own forwarded headers.

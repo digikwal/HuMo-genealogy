@@ -3,6 +3,7 @@
 namespace Genealogy\App\Model;
 
 use Genealogy\App\Model\BaseModel;
+use Genealogy\Include\RequestUrl;
 use PDO;
 
 class ResetPasswordModel extends BaseModel
@@ -96,10 +97,8 @@ class ResetPasswordModel extends BaseModel
     {
         $site_url = '';
         if (isset($_POST['user_mail'])) {
-            $site_url  = @($_SERVER["HTTPS"] != 'on') ? 'http://' . $_SERVER["SERVER_NAME"] :  'https://' . $_SERVER["SERVER_NAME"];
-            // *** May 2022: removed port. For some reason port 80 was always shown ***
-            //$site_url .= ( $_SERVER["SERVER_PORT"] !== 80 ) ? ":".$_SERVER["SERVER_PORT"] : "";
-            $site_url .= $_SERVER["REQUEST_URI"];
+            $requestUrl = new RequestUrl();
+            $site_url = $requestUrl->getCurrentUrl();
         }
         return $site_url;
     }
